@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //timer
 
-    const end = new Date('2022-03-27');
+    const end = new Date('2022-03-28');
     
     function calculateTime (end) {
         const start = new Date();
@@ -92,10 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const t = calculateTime(end);
             if (t.total < 0) {
                 clearInterval(interval);
-                days.innerHTML = `0`;
-                hours.innerHTML = `0`;
-                minutes.innerHTML = `0`;
-                seconds.innerHTML = `0`;
+                days.innerHTML = `00`;
+                hours.innerHTML = `00`;
+                minutes.innerHTML = `00`;
+                seconds.innerHTML = `00`;
             } else {
                 days.innerHTML = `${getZero(t.days)}`;
                 hours.innerHTML = `${getZero(t.hours)}`;
@@ -110,4 +110,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
    
     showTime(end);
+
+
+
+    //modal
+
+    const modal = document.querySelector('.modal');
+    const modalBtn = document.querySelectorAll('[data-modal]');
+    const modalClose = document.querySelector('[data-modal_close');
+
+
+
+    function showModal () {
+        modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimer);
+
+    }
+
+    function hideModal () {
+        modal.classList.toggle('show');
+        document.body.style.overflow = '';
+    }
+
+
+    modalBtn.forEach(element => {
+        element.addEventListener('click', showModal);
+    });
+    modalClose.addEventListener('click', hideModal);
+    modal.addEventListener('click', (e) => {
+        if(e.target == modal){
+            hideModal ();
+        }
+    });
+
+    const modalTimer = setTimeout(showModal, 3000);
+
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            showModal();
+            window.removeEventListener('scroll', showModalByScroll)
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
 });
